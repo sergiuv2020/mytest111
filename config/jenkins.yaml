@@ -1,7 +1,7 @@
 plugins:
   sites:
   - id: "default"
-    url: "https://updates.jenkins.io/update-center.json"
+    url: "https://updates.jenkins.io/current/update-center.json"
 jenkins:
   agentProtocols:
   - "CLI-connect"
