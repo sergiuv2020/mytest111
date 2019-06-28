@@ -1,11 +1,16 @@
 pipeline {
     agent {
-        label "jenkins-maven"
+              label "maven-dind"
+              // Inherit from Jx Maven pod template
+              inheritFrom "maven"
+              // Add pod configuration to Jenkins builder pod template
+              yamlFile "maven-dind.yaml"
+        }
     }
   stages {
     stage('CI Build and push snapshot') {
-      kubernetes.pod('buildpod').withImage('maven').inside {
       steps {
+          container('maven') {
           sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
           sh "mvn install"
           sh "skaffold version"
@@ -14,6 +19,7 @@ pipeline {
           dir('charts/preview') {
             sh "make preview"
             sh "jx preview --app $APP_NAME --dir ../.."
+          }
           }
       }
       post {
