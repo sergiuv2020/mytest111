@@ -1,12 +1,12 @@
 pipeline {
-    agent {
-              label "maven-dind"
-              // Inherit from Jx Maven pod template
-              inheritFrom "maven"
-              // Add pod configuration to Jenkins builder pod template
-              yamlFile "maven-dind.yaml"
-        }
-    }
+  agent {
+            label "maven-dind"
+            // Inherit from Jx Maven pod template
+            inheritFrom "maven"
+            // Add pod configuration to Jenkins builder pod template
+            yamlFile "maven-dind.yaml"
+      }
+  }
   stages {
     stage('CI Build and push snapshot') {
       steps {
@@ -22,17 +22,16 @@ pipeline {
           }
           }
       }
-      post {
-          always {
-              junit 'target/surefire-reports/*.xml'
-          }
-      }
-      }
+      // post {
+      //     always {
+      //         junit 'target/surefire-reports/*.xml'
+      //     }
+      // }
     }
-  post {
-        always {
-          cleanWs()
-        }
   }
-}
+  // post {
+  //       always {
+  //         cleanWs()
+  //       }
+  // }
 }
