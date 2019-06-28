@@ -1,34 +1,22 @@
 pipeline {
     agent {
         kubernetes {
-              // Change the name of jenkins-maven label to be able to use yaml configuration snippet
-              label "maven-dind"
-              // Inherit from Jx Maven pod template
-              inheritFrom "maven"
-              // Add pod configuration to Jenkins builder pod template
-              yamlFile "maven-dind.yaml"
+              label "maven"
+              // -dind"
+              // inheritFrom "maven"
+              // yamlFile "maven-dind.yaml"
         }
     }
+    parameters {
+      string(name: 'URL', defaultValue: 'http://google.com', description: 'Url to do a GET request')
+    }
     stages {
-      stage('CI Build and push snapshot') {
-        // when {
-        //   branch 'PR-*'
-        // }
-        environment {
-          PREVIEW_VERSION = "0.0.0-SNAPSHOT-$BRANCH_NAME-$BUILD_NUMBER"
-        }
+      stage('RUN ci Test') {
         steps {
           container('maven') {
-            sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
-            sh "mvn clean install test"
+            sh "mvn clean test -Durl=${params.URL}"
           }
         }
       }
-    }  
-    
-    post {
-        always {
-            cleanWs()
-        }
     }
 }
