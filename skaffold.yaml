@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:
-  - image: svidrascu/mytest111
+  - image: cristina-sirbu/mytest
     context: .
     docker: {}
   tagPolicy:
@@ -21,8 +21,8 @@ profiles:
   deploy:
     helm:
       releases:
-      - name: mytest111
-        chartPath: charts/mytest111
+      - name: mytest
+        chartPath: charts/mytest
         setValueTemplates:
           image.repository: '{{.DOCKER_REGISTRY}}/{{.IMAGE_NAME}}'
           image.tag: '{{.DIGEST_HEX}}'

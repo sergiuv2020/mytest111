@@ -1,5 +1,5 @@
-# Custom Jenkins Image
+# spring-boot 2.0
 
-This project creates a custom Docker image based on the [Jenkins X image for Jenkins](https://github.com/jenkins-x/jenkins-x-image) which then adds a number of plugins defined in the [plugins.txt](plugins.txt)
+Simple example to show watching the custom resource definition PipelineActivities
 
-See the [documentation on configurating a custom Jenkins docker image](https://jenkins-x.io/getting-started/config/#jenkins-image)
+The example writes any PipelineActivites to the console. Use `jx logs --env staging jx-staging-<app name>` to view the log. Then trigger a promotion using `jx promote <app name> --version=<version in staging> --env production`.
