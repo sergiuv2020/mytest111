@@ -1,12 +1,10 @@
 pipeline {
     agent {
-        docker {
-            image 'maven:3-alpine' 
-            args '-v /root/.m2:/root/.m2' 
-        }
+        label "jenkins-maven"
     }
   stages {
     stage('CI Build and push snapshot') {
+      kubernetes.pod('buildpod').withImage('maven').inside {
       steps {
           sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
           sh "mvn install"
@@ -22,6 +20,7 @@ pipeline {
           always {
               junit 'target/surefire-reports/*.xml'
           }
+      }
       }
     }
   }
